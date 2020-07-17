@@ -4,6 +4,7 @@ const fs = require("fs");
 const {promisify} = require("util");
 
 const readFileAsync = promisify(fs.readFile);
+const statAsync = promisify(fs.stat);
 
 if (process.argv.length < 7)
     throw new Error("You must provide all the needed arguments");
@@ -22,26 +23,48 @@ function listFilesRecursively(dir){
             throw new Error("Incorrect directory provided");
         }
 
-        dirItems.forEach((dirItem) => {
+        dirItems.forEach(async (dirItem) => {
             let fullPath = path.join(dir, dirItem);
-            fs.stat(fullPath, async (error, stats) => {
-                if (stats.isDirectory())
-                    listFilesRecursively(fullPath);
-                
-                await upload(dirItem, fullPath);   
-            })
+            
+            const stats = await statAsync(fullPath);
+            await upload(fullPath, stats);
+            if (stats.isDirectory())
+                listFilesRecursively(fullPath);
         });
     });
 }
 
-async function upload(fileName, fullPath){
-    const content = await readFileAsync(fullPath);
-    bucket.upload({
+async function upload(_fullPath, stats){
+    if (!stats.isDirectory())
+        var content = await readFileAsync(_fullPath);
+    
+    let fullPath = "";
+    _fullPath.split("\\").forEach((segment) => {
+        if (!fullPath)
+            return fullPath = segment;
+        
+        fullPath += `/${segment}`; // So it seems nested
+    });
+
+    let params = {
         Bucket: process.argv[5],
-        Key: fileName,
-        Body: content
-    }, (error, data) => {
+        Key: content? fullPath: `${fullPath}/`, // add / to indicate a directory
+        Body: content? content: "",
+    };
+
+    bucket.upload(params, (error, data) => {
         console.error(error);
         console.log(data);
     });
+}
+
+function swapBackslashesWithForwardOnes(_fullpath){
+    let fullPath = "";
+    _fullPath.split("\\").forEach((segment) => {
+        if (!fullPath)
+            return fullPath = segment;
+        
+        fullPath += `/${segment}`; // So it seems nested
+    });
+    return fullPath;
 }
