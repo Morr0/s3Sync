@@ -21,10 +21,10 @@ inputs:
 
 runs:
   using: "node12"
-  main: "index.js"
-  args:
-    - ${{ inputs.accessKey }}
-    - ${{ inputs.secretKey }}
-    - ${{ inputs.region }}
-    - ${{ inputs.bucket }}
-    - ${{ inputs.dir }}
+  main: "index.js ${{ inputs.accessKey }} ${{ inputs.secretKey }} ${{ inputs.region }} ${{ inputs.bucket }} ${{ inputs.dir }}"
+  # args:
+  #   - ${{ inputs.accessKey }}
+  #   - ${{ inputs.secretKey }}
+  #   - ${{ inputs.region }}
+  #   - ${{ inputs.bucket }}
+  #   - ${{ inputs.dir }}
