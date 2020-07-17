@@ -1,0 +1,30 @@
+name: "s3Sync"
+description: "Syncs repository to AWS S3"
+author: "Morr0"
+
+inputs:
+  accessKey:
+    description: "AWS Access ID"
+    required: true
+  secretKey:
+    description: "AWS SECRET Key"
+    required: true
+  region:
+    description: "AWS Region"
+    required: true
+  bucket:
+    description: "AWS Bucket name"
+    required: true
+  dir:
+    description: "Directory of github to sync, use '.' for the entire repository"
+    required: true
+
+runs:
+  using: "node12"
+  main: "index.js"
+  args:
+    - ${{ inputs.accessKey }}
+    - ${{ inputs.secretKey }}
+    - ${{ inputs.region }}
+    - ${{ inputs.bucket }}
+    - ${{ inputs.dir }}

@@ -57,14 +57,3 @@ async function upload(_fullPath, stats){
         console.log(data);
     });
 }
-
-function swapBackslashesWithForwardOnes(_fullpath){
-    let fullPath = "";
-    _fullPath.split("\\").forEach((segment) => {
-        if (!fullPath)
-            return fullPath = segment;
-        
-        fullPath += `/${segment}`; // So it seems nested
-    });
-    return fullPath;
-}
