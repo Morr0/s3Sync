@@ -21,6 +21,7 @@ inputs:
 
 runs:
   using: "node12"
+  run: npm install
   main: "index.js"
   # args:
   #   - ${{ inputs.accessKey }}
