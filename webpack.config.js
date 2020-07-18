@@ -12,8 +12,8 @@ module.exports = {
     //     fs:    "commonjs fs",
     //     path:  "commonjs path"
     // }
-    node: {
-        fs: "empty"
-    }
+    // node: {
+    //     fs: "empty"
+    // }
   };
   
