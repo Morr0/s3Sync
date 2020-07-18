@@ -6,16 +6,22 @@ const {promisify} = require("util");
 const readFileAsync = promisify(fs.readFile);
 const statAsync = promisify(fs.stat);
 
-if (process.argv.length < 7)
-    throw new Error("You must provide all the needed arguments");
+require("dotenv").config();
+const {
+    AWS_ACCESS_KEY,
+    AWS_SECRET_KEY,
+    AWS_REGION,
+    AWS_BUCKET,
+    DIRECTORY = ".",
+} = process.env;
 
 const bucket = new S3({
-    accessKeyId: process.argv[2],
-    secretAccessKey: process.argv[3],
-    region: process.argv[4],
+    accessKeyId: AWS_ACCESS_KEY,
+    secretAccessKey: AWS_SECRET_KEY,
+    region: AWS_REGION,
 });
 
-listFilesRecursively(process.argv[6]);
+listFilesRecursively(DIRECTORY);
 
 function listFilesRecursively(dir){
     fs.readdir(dir, (error, dirItems) => {
@@ -47,7 +53,7 @@ async function upload(_fullPath, stats){
     });
 
     let params = {
-        Bucket: process.argv[5],
+        Bucket: AWS_BUCKET,
         Key: content? fullPath: `${fullPath}/`, // add / to indicate a directory
         Body: content? content: "",
     };

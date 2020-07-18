@@ -1,5 +1,5 @@
 # s3Sync
-### Arguments:
+### Environment variables:
 - AWS access Id
 - AWS secret key Id
 - AWS region
