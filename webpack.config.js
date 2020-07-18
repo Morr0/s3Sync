@@ -7,6 +7,10 @@ module.exports = {
         filename: "index.js"
     },
     mode: 'production',
-    target: "node"
+    target: "node",
+    externals:{
+        fs:    "commonjs fs",
+        path:  "commonjs path"
+    }
   };
   
