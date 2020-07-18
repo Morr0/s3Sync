@@ -8,9 +8,12 @@ module.exports = {
     },
     mode: 'production',
     target: "node",
-    externals:{
-        fs:    "commonjs fs",
-        path:  "commonjs path"
+    // externals:{
+    //     fs:    "commonjs fs",
+    //     path:  "commonjs path"
+    // }
+    node: {
+        fs: "empty"
     }
   };
   
