@@ -7,7 +7,7 @@ module.exports = {
         filename: "index.js"
     },
     mode: 'production',
-    target: "node",
+    target: "async-node"
     // externals:{
     //     fs:    "commonjs fs",
     //     path:  "commonjs path"
